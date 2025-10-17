@@ -20,3 +20,12 @@ class Rig:
         self.data_spike = data_spike
         self.removable_drive = removable_drive
         self.upgrade_level = upgrade_level
+
+    def hit(self):
+        self.damage_counter += 1
+        print(f'Rig hit! Damage: {self.damage_counter}')
+
+        if self.damage_counter >= 2:
+            self.broken_state = True
+            print('Rig is broken!')
+
