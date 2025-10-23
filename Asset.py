@@ -16,6 +16,8 @@ class Asset:
 
     def __str__(self):
         if self.encrypted:
-            return f'<{self.name}>: <{self.description}> [Encrypted]'
+            return f'{self.name}: {self.description} [Encrypted]'
         else:
             return f'{self.name}: {self.description}'
+
+
