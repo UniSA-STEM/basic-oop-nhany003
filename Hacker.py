@@ -1,30 +1,33 @@
 """
 File: Hacker.py
-Description: <A brief description of this Python module.>
-Author: <full name>
-ID: <student_id>
-Username: <username>
+Description: The Hacker module includes a class that can acquire a rig, perform attacks and manage digital assets
+Author: Nenciliae Nhanga
+ID: 110424563
+Username: nhany003
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
+from Rig import Rig
+
+
 class Hacker:
-    def __init__(self, name="", rig=None, trace_level=0):
+    def __init__(self, name='', rig=False, trace_level=0):
         self.name = name
         self.rig = rig
-        self.inventory = ['crypto_token']
+        self.inventory = ['CryptoToken']
         self.trace_level = trace_level
 
     def acquire_rig(self):
         if 'CryptoToken' in self.inventory:
             self.inventory.remove('CryptoToken')
-            self.rig = Rig(f"{self.name}'s Rig")
-            print(f"Rig acquired and activated!")
+            self.rig = Rig(f'{self.name} Rig')
+            print('Rig acquired and activated')
         else:
             print('Not enough tokens')
 
     def increase_trace(self):
         self.trace_level = self.trace_level + 1
         if self.trace_level >= 5:
-            print(f'WARNING! Trace level: {self.trace_level}, {self.name} is EXPOSED')
+            print(f'WARNING! Trace level: {self.trace_level}')
 
     def exposed(self):
         if self.trace_level >= 5:
@@ -32,24 +35,31 @@ class Hacker:
 
     def reduce_trace(self):
         self.trace_level = self.trace_level - 1
-        print(f"Trace reduced to {self.trace_level}")
 
     def launch_data_spike(self, target_rig):
         if self.trace_level >= 5:
             print(f'{self.name} is EXPOSED. Cannot perform action')
             return
 
+        if self.rig is False:
+            print('No rig available')
+            return
+
         if 'Data Spike' not in self.rig.storage:
-            print('No Data Spike available')
+            print('No data spike available')
             return
 
         self.rig.storage.remove('Data Spike')
         target_rig.hit()
         self.increase_trace()
-        print(f'Data spike launched!')
+        print('Data spike launched')
 
-    def extract_assets(selfself, target_rig):
-        if target_rig.broken_state == False:
+    def extract_assets(self, target_rig):
+        if self.rig is False:
+            print('No rig available')
+            return
+
+        if not target_rig.broken_state:
             print('Target rig is not broken')
             return
 
@@ -57,55 +67,46 @@ class Hacker:
             print('No removable drive available')
             return
 
-    self.rig.storage.remove('Removable Drive')
+        self.rig.storage.remove('Removable Drive')
 
-    for asset in target_rig.storage[:]:
-        if '(Encrypted)' not in asset:
-            target_rig.storage.remove(asset)
-            self.inventory.append(asset)
+        for asset in target_rig.storage:
+            if '(Encrypted)' not in asset:
+                target_rig.storage.remove(asset)
+                self.inventory.append(asset)
 
-    print('Assets extracted!')
+    def encrypt_asset(self, asset):
+        if 'Security Chip' not in self.inventory:
+            print('No security chip available')
+            return
 
-
-def encrypt_asset(self, asset):
-
-    if 'Security Chip' not in self.inventory:
-        print('No Security Chip available')
-        return
-
-    if asset not in self.inventory:
-        print(f'{asset} not found')
-        return
-
-    self.inventory.remove('Security Chip')
-    self.inventory.remove(asset)
-    self.inventory.append(f'{asset} (Encrypted)')
-    print(f'{asset} encrypted!')
+        self.inventory.remove('Security Chip')
+        self.inventory.append(f'{asset} (Encrypted)')
 
     def decrypt_asset(self, asset):
         encrypted = f'{asset} (Encrypted)'
 
         if 'Security Chip' not in self.inventory:
-            print('No Security Chip available')
-            return
-
-        if encrypted not in self.inventory:
-            print(f'{encrypted} not found')
+            print('No security chip available')
             return
 
         self.inventory.remove('Security Chip')
         self.inventory.remove(encrypted)
         self.inventory.append(asset)
-        print(f'{asset} decrypted!')
 
     def upgrade_rig(self):
+        if self.rig is False:
+            print('No rig available')
+            return
         if 'Hardware Patch' not in self.inventory:
-            print('No Hardware Patch available')
+            print('No hardware patch available')
             return
         self.inventory.remove('Hardware Patch')
         self.rig.upgrade()
 
     def store_asset(self, asset):
+        if self.rig is False:
+            print('No rig available')
+            return
         if asset in self.inventory:
             self.inventory.remove(asset)
             self.rig.storage.append(asset)
@@ -114,6 +115,9 @@ def encrypt_asset(self, asset):
             print(f'{asset} not in inventory')
 
     def retrieve_asset(self, asset):
+        if self.rig is False:
+            print('No rig available')
+            return
         if asset in self.rig.storage:
             self.rig.storage.remove(asset)
             self.inventory.append(asset)
@@ -121,10 +125,24 @@ def encrypt_asset(self, asset):
         else:
             print(f'{asset} not in rig')
 
-    def scan_inventory(self, asset_name):
+
+    def take_asset(self, asset_name):
         if asset_name in self.inventory:
             self.inventory.remove(asset_name)
             return asset_name
         else:
             print(f'{asset_name} not found')
             return None
+
+    def __str__(self):
+        if self.rig:
+            rig_name = self.rig.name
+        else:
+            rig_name = 'None'
+
+        inventory_list = ', '.join(self.inventory)
+
+        return (f"Hacker: {self.name}\n"
+                f"Rig: {rig_name}\n"
+                f"Trace Level: {self.trace_level}\n"
+                f"Inventory: {inventory_list}")

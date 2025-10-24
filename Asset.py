@@ -1,9 +1,9 @@
 """
 File: Asset.py
-Description: <A brief description of this Python module.>
-Author: <full name>
-ID: <student_id>
-Username: <username>
+Description: This module features an asset class that represents items
+Author: Nenciliae Nhanga
+ID: 110424563
+Username: nhany003
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
@@ -19,5 +19,3 @@ class Asset:
             return f'{self.name}: {self.description} [Encrypted]'
         else:
             return f'{self.name}: {self.description}'
-
-
